@@ -1,0 +1,426 @@
+\documentclass[paper=a4, fontsize=11pt,twoside]{scrartcl}		% KOMA article
+
+\usepackage[margin=1in]{geometry}									% A4paper margins
+\setlength{\oddsidemargin}{5mm}												% Remove 'twosided' indentation
+\setlength{\evensidemargin}{5mm}
+
+\usepackage[english]{babel}
+\usepackage[protrusion=true,expansion=true]{microtype}	
+\usepackage{amsmath,amsfonts,amsthm,amssymb}
+\usepackage{graphicx,xcolor,lipsum}
+\usepackage{microtype}
+\usepackage{siunitx}
+\usepackage{booktabs}
+\usepackage[colorlinks=false, pdfborder={0 0 0}]{hyperref}
+\usepackage{cleveref}
+% various theorems, numbered by section
+
+\newtheorem{example}{Example}[section]
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{conj}[thm]{Conjecture}
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{defns}[thm]{Definitions}
+\newtheorem{con}[thm]{Construction}
+\newtheorem{exmp}[thm]{Example}
+\newtheorem{exmps}[thm]{Examples}
+\newtheorem{notn}[thm]{Notation}
+\newtheorem{notns}[thm]{Notations}
+\newtheorem{addm}[thm]{Addendum}
+\newtheorem{exer}[thm]{Exercise}
+
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{rems}[thm]{Remarks}
+\newtheorem{warn}[thm]{Warning}
+\newtheorem{sch}[thm]{Scholium}
+\DeclareMathOperator{\id}{id}
+
+\newcommand{\bd}[1]{\mathbf{#1}}  % for bolding symbols
+\newcommand{\RR}{\mathbb{R}}      % for Real numbers
+\newcommand{\ZZ}{\mathbb{Z}}      % for Integers
+\newcommand{\col}[1]{\left[\begin{matrix} #1 \end{matrix} \right]}
+\newcommand{\comb}[2]{\binom{#1^2 + #2^2}{#1+#2}}
+% ------------------------------------------------------------------------------
+% Definitions (do not change this)
+% ------------------------------------------------------------------------------
+\newcommand{\HRule}[1]{\rule{\linewidth}{#1}} 	% Horizontal rule
+
+\makeatletter							% Title
+\def\printtitle{%						
+    {\centering \@title\par}}
+\makeatother									
+
+\makeatletter							% Author
+\def\printauthor{%					
+    {\centering \large \@author}}				
+\makeatother							
+
+% ------------------------------------------------------------------------------
+% Metadata (Change this)
+% ------------------------------------------------------------------------------
+\title{	\normalsize \textsc{} 	% Subtitle of the document
+		 	\\[2.0cm]													% 2cm spacing
+			\HRule{0.5pt} \\										% Upper rule
+			\LARGE \textbf{\uppercase{Binet's Formula}}	% Title
+			\HRule{2pt} \\ [0.5cm]								% Lower rule + 0.5cm spacing
+			\normalsize \day{October 7, 2014}									% Todays date
+		}
+
+\author{
+		Miliyon T.\\	
+		Addis Ababa University\\	
+		Department of Mathematics\\
+        \texttt{miliyon@ymail.com} \\
+}
+
+
+\begin{document}
+% ------------------------------------------------------------------------------
+% Maketitle
+% ------------------------------------------------------------------------------
+\thispagestyle{empty}				% Remove page numbering on this page
+
+\printtitle									% Print the title data as defined above
+  	\vfill
+\printauthor								% Print the author data as defined above
+% ------------------------------------------------------------------------------
+% Begin document
+% ------------------------------------------------------------------------------
+\newpage
+\tableofcontents
+\section{\href{www.albohessab.weebly.com}{Introduction}}
+
+\subsection{Golden ratio}
+The golden ratio (golden section) is defined as follows
+$$\frac{a}{b}=\frac{a+b}{a}$$
+or we can define the golden ratio using continued fraction
+\begin{align}\label{Continued}
+\phi:=1+\frac{1}{1+\frac{1}{1+\frac{1}{1+\frac{1}{1+\frac{1}{1+\frac{1}{1+\frac{1}{\ddots}}}}}}}
+\end{align}
+The other way to define the golden ratio would be this
+\begin{align}\label{square}
+\phi:=\sqrt{1+\sqrt{1+\sqrt{1+\sqrt{1+\sqrt{1+\sqrt{1+\cdots}}}}}}
+\end{align}
+\subsection{Interesting Identities}
+The identity that we get from (\ref{Continued}) directly
+\begin{align}\label{id1}
+\phi=1+\frac{1}{\phi}
+\end{align}
+The following identity is derived from (\ref{square})
+\begin{align}\label{id2}
+\phi^2=1+\phi
+\end{align}
+\subsection{Some Linear Algebra facts}
+\begin{align}\label{fact}
+  \left[\begin{matrix} F_1\\ F_2 \end{matrix} \right] = \left[\begin{matrix} 1\\ 1\end{matrix}\right]
+\qquad \& \qquad
+\left[\begin{matrix} F_n\\ F_{n+1} \end{matrix}\right] = \left[ \begin{matrix} 0   & 1 \\ 1  & 1 \end{matrix}\right] \left[\begin{matrix} F_{n-1}\\ F_n \end{matrix}\right]
+\end{align}
+We are going to see the importance of (\ref{fact}) in proving the following lemma.
+
+\colorbox{pink}{\parbox{\textwidth}{\begin{lem}
+For any $n\in\mathbb{N}$
+$$
+\left[\begin{matrix} F_n\\ F_{n+1} \end{matrix}\right] = \left[ \begin{matrix} 0   & 1 \\ 1  & 1 \end{matrix}\right]^{n-1} \left[\begin{matrix} 1\\ 1 \end{matrix}\right]
+$$
+\end{lem}}}
+\begin{proof}{[Induction]}\\
+For $n=1$
+$$
+\left[\begin{matrix} F_1\\ F_2 \end{matrix} \right] = \left[ \begin{matrix} 0   & 1 \\ 1  & 1 \end{matrix}\right]^0 \left[\begin{matrix} 1\\ 1\end{matrix}\right]=I_2\left[\begin{matrix} 1\\ 1\end{matrix}\right]=\left[\begin{matrix} 1\\ 1\end{matrix}\right]
+$$
+For $n=k$. This step is called Induction hypothesis ($IH$)\label{lem1}.
+$$
+\left[\begin{matrix} F_k\\ F_{k+1} \end{matrix} \right] = \left[ \begin{matrix} 0   & 1 \\ 1  & 1 \end{matrix}\right]^{k-1} \left[\begin{matrix} 1\\ 1\end{matrix}\right]
+$$
+Now for $n=k+1$. But from (\ref{fact}) we have
+\begin{align*}
+\left[\begin{matrix} F_{k+1}\\ F_{k+2} \end{matrix}\right] &= \left[ \begin{matrix} 0   & 1 \\ 1  & 1 \end{matrix}\right] \left[\begin{matrix} F_{k}\\ F_{k+1} \end{matrix}\right]\\
+&= \left[ \begin{matrix} 0   & 1 \\ 1  & 1 \end{matrix}\right] \left[ \begin{matrix} 0   & 1 \\ 1  & 1 \end{matrix}\right]^{k-1} \left[\begin{matrix} 1\\ 1\end{matrix}\right] \qquad (by~IH)\\
+&= \left[ \begin{matrix} 0   & 1 \\ 1  & 1 \end{matrix}\right]^{k} \left[\begin{matrix} 1\\ 1\end{matrix}\right]
+\end{align*}
+Hence by using principle of mathematical induction we can conclude that
+$$
+\left[\begin{matrix} F_n\\ F_{n+1} \end{matrix}\right] = \left[ \begin{matrix} 0   & 1 \\ 1  & 1 \end{matrix}\right]^{n-1} \left[\begin{matrix} 1\\ 1 \end{matrix}\right]\qquad \forall n\in \mathbb{N}.
+$$
+\end{proof}
+
+\subsection{Generating Functions }
+\begin{defn}\label{the01}
+The (ordinary) \textbf{generating function} for the sequence $a_0, a_1, a_2,\cdot\cdot\cdot$ of real numbers
+is the formal power series
+$$
+f(x)=a_0+a_1x+a_2x^2+\cdot\cdot\cdot=\sum_{i=0}^\infty a_ix^i
+$$
+or any equivalent closed form expression.
+\end{defn}
+\textbf{Note}:
+\begin{enumerate}
+  \item Generating functions can be used to solve recurrence relations. As we will see soon.
+  \item Each sequence ${a_n}$ defines a unique generating function $f(x)$, and conversely.
+  \item Generating functions are considered as algebraic forms and can be manipulated as such, without regard to actual convergence of the power series.
+\end{enumerate}
+\begin{example}
+The generating function for the sequence $1, 1, 1, 1, 1,\cdot\cdot\cdot$ is
+\begin{align}\label{ex1}
+f(x)=1+x+x^2+x^3+\cdot\cdot\cdot
+\end{align}
+As we know from geometric series the closed form of (\ref{ex1}) is given by
+$$
+f(x)=\frac{1}{1-x}
+$$
+\end{example}
+\begin{example}
+The generating function for the sequence $ 1, 1, 1, 1, 1,... $is
+$$1+x+x^2 +x^3 +x^4 +\cdot\cdot\cdot=\frac{1}{1-x}$$
+Differentiating both sides of this expression produces
+$$1 + 2x + 3x^2 + 4x^3 +\cdot\cdot\cdot=\frac{1}{(1-x)^2}$$
+Thus, $\frac{1}{(1-x)^2}$ is a closed form expression for the generating function of the sequence $1, 2, 3, 4,...$.
+\end{example}
+
+\subsection{Recurrence Relation}
+\begin{defn}
+A \textbf{recurrence relation} for the sequence $a_0, a_1, a_2,\cdot\cdot\cdot $ is an equation relating the term $a_n$ to certain of the preceding terms $a_i$, $i\le n$, for each $n\geq n_0$.
+\end{defn}
+
+\section{Binet's formula}
+
+\subsection{Combinatorial proof}
+\colorbox{pink}{\parbox{\textwidth}{
+\begin{thm}
+For any $n\in \mathbb{N}$ the $n^{th}$ term of the Fibonacci sequence is given by
+$$F_n=\frac{1}{\sqrt{5}}\biggl[\phi^n-\biggl(-\frac{1}{\phi}\biggl)^n \biggl]$$
+where $\phi$ is a golden ratio.
+\end{thm}}}
+\begin{proof}
+The Fibonacci sequence is defined by the following recurrence relation
+$$ a_n=a_{n-1}+a_{n-2}$$
+This can be rewritten as follows
+\begin{align}\label{fibonacci}
+ a_n-a_{n-1}-a_{n-2}=0
+\end{align}
+Which is clearly a homogeneous equation. The characteristic\footnote{Dr. Yirgalem}($\chi$) equation of (\ref{fibonacci}) is given by
+\begin{align}\label{characteristic}
+\lambda^2-\lambda-1=0
+\end{align}
+Thus using quadratic formula the solutions to (\ref{characteristic}) are
+$$\lambda=\frac{1+\sqrt{5}}{2} \qquad \& \qquad \lambda=\frac{1-\sqrt{5}}{2}$$
+Hence the general solution to the recurrence relation (\ref{fibonacci}) is
+\begin{align}\label{solution}
+a_n=\alpha \biggl( \frac{1+\sqrt{5}}{2}\biggl)^n +\beta\biggl( \frac{1-\sqrt{5}}{2}\biggl)^n
+\end{align}
+But from Fibonacci sequence we know that the values of $a_0$ and $a_1$ are $0$ and $1$ respectively. So by using this we are going to find the values of $\alpha$ and $\beta$\\
+Substitute $n=1$ in (\ref{solution})
+\begin{align*}
+a_1 &=\alpha \biggl( \frac{1+\sqrt{5}}{2}\biggl)^1 +\beta\biggl( \frac{1-\sqrt{5}}{2}\biggl)^1
+\end{align*}
+But $a_1=1,$ then we have
+\begin{align}\label{eq1}
+\alpha \biggl( \frac{1+\sqrt{5}}{2}\biggl) +\beta\biggl( \frac{1-\sqrt{5}}{2}\biggl)=1
+\end{align}
+Substitute $n=2$ in (\ref{solution})
+\begin{align*}
+a_1 &=\alpha \biggl( \frac{1+\sqrt{5}}{2}\biggl)^2 +\beta\biggl( \frac{1-\sqrt{5}}{2}\biggl)^2
+\end{align*}
+But $a_2=1,$ then we have
+\begin{align}\label{eq2}
+\alpha \biggl( \frac{3+\sqrt{5}}{2}\biggl) +\beta\biggl( \frac{3-\sqrt{5}}{2}\biggl)=1
+\end{align}
+From (\ref{eq1}) and (\ref{eq2}) we have two equations with two variable. Hence by using simultaneous equation or other method we will get the values of $\alpha$ and $\beta$ to be $\frac{1}{\sqrt{5}}$ and $\frac{-1}{\sqrt{5}}$ respectively. Therefore we have
+$$
+a_n=\frac{1}{\sqrt{5}} \biggl( \frac{1+\sqrt{5}}{2}\biggl)^n -\frac{1}{\sqrt{5}}\biggl( \frac{1-\sqrt{5}}{2}\biggl)^n
+$$
+\end{proof}
+\subsection{Proof by Induction}
+\colorbox{pink}{\parbox{\textwidth}{
+\begin{thm}
+For any $n\in \mathbb{N}$ the $n^{th}$ term of the Fibonacci sequence is given by
+$$F_n=\frac{1}{\sqrt{5}}\biggl[\phi^n-\biggl(-\frac{1}{\phi}\biggl)^n \biggl]$$
+where $\phi$ is a golden ratio.
+\end{thm}}}
+\begin{proof}
+\footnote{Alfred and Ingmar}For $n=1$
+\begin{align*}
+F_1+F_2 &=\frac{1}{\sqrt{5}}\biggl[\phi-\frac{1}{\phi} \biggl] +\frac{1}{\sqrt{5}}\biggl[\phi^2-\frac{1}{\phi^2} \biggl]\\
+        &=\frac{1}{\sqrt{5}}\biggl[2\phi-1 \biggl]+\frac{1}{\sqrt{5}}\biggl[\frac{\phi^4-1}{\phi^2} \biggl]\\
+        &=\frac{1}{\sqrt{5}}\biggl[\sqrt{5}\biggl]+\frac{1}{\sqrt{5}}\biggl[\frac{(\phi^2-1)(\phi^2+1)}{\phi^2} \biggl]\\
+        &=1+\frac{1}{\sqrt{5}}\biggl[\frac{\phi(\phi^2-1)}{\phi^2} \biggl] \qquad (\phi^2-1=\phi ~by~(\ref{id2}))\\
+        &=1+\frac{1}{\sqrt{5}}\biggl[\frac{\phi^2-1}{\phi} \biggl]=1+\frac{1}{\sqrt{5}}\biggl[\phi-\frac{1}{\phi} \biggl]\\
+        &=1+\frac{1}{\sqrt{5}}\biggl[\sqrt{5} \biggl]\\
+        &=2=F_3
+\end{align*}
+For $n=k$
+$$
+F_k +F_{k-1}=F_{k-2}
+$$
+Now, for $n=k+1$
+\begin{align*}
+F_{k+1}+F_{k+2} &=\frac{1}{\sqrt{5}}\biggl[\phi^{k+1}-\biggl(-\frac{1}{\phi}\biggl)^{k+1} \biggl] +\frac{1}{\sqrt{5}}\biggl[\phi^{k+2}-\biggl(-\frac{1}{\phi}\biggl)^{k+2} \biggl]\\
+        &=\frac{1}{\sqrt{5}}\biggl[\phi^{k+2}+\phi^{k+1}-\biggl(-\frac{1}{\phi}\biggl)^{k+2}-\biggl(-\frac{1}{\phi}\biggl)^{k+1} \biggl]\\
+        &=\frac{1}{\sqrt{5}}\biggl[\phi^{k+1}(\phi+1)-\biggl(-\frac{1}{\phi}\biggl)^{k+1}\biggl(\biggl(-\frac{1}{\phi}\biggl)+1\biggl) \biggl]\\
+        &=\frac{1}{\sqrt{5}}\biggl[\phi^{k+1}(\phi^2)-\biggl(-\frac{1}{\phi}\biggl)^{k+1}\biggl(-\frac{1}{\phi}\biggl)^2 \biggl]\qquad (  \because \biggl(-\frac{1}{\phi}\biggl)^2= \biggl(-\frac{1}{\phi}\biggl)+1)\\
+        &=\frac{1}{\sqrt{5}}\biggl[\phi^{k+3}-\biggl(-\frac{1}{\phi}\biggl)^{k+3} \biggl]\\
+        &=F_{k+3}
+\end{align*}
+Hence, by principles of mathematical induction it follows that
+$$
+F_n=\frac{1}{\sqrt{5}}\biggl[\phi^n-\biggl(-\frac{1}{\phi}\biggl)^n \biggl] \qquad \forall n\in \mathbb{N}.
+$$
+\end{proof}
+
+\subsection{Linear algebra proof}
+\colorbox{pink}{\parbox{\textwidth}{
+\begin{thm}[Binet]
+A closed form of a Fibonacci sequence is given by
+\begin{align}
+F_n=\frac{1}{\sqrt{5}}\biggl[ \phi_1 ^n -\phi_2 ^n\biggl]
+\end{align}
+Where $\phi_1=\frac{1+\sqrt{5}}{2}$ and $\phi_2=\frac{1-\sqrt{5}}{2}$.
+\end{thm}}}
+\begin{proof}
+From (\ref{lem1}) we have
+$$
+\left[\begin{matrix} F_n\\ F_{n+1} \end{matrix}\right] = \left[ \begin{matrix} 0   & 1 \\ 1  & 1 \end{matrix}\right]^{n-1} \left[\begin{matrix} 1\\ 1 \end{matrix}\right]
+$$
+
+Let $A=\left[ \begin{matrix} 0   & 1 \\ 1  & 1 \end{matrix}\right]$\\
+If some how we could diagonalize matrix $A$ (i.e to write $A$ in the form $A=PDP^{-1}$ ), taking any powers of $A$ would be simple. Because we know that $A^n=PD^nP^{-1}$ and we would get such a simple formula for $F_n$. So let's start diagonalize $A$.\\
+First let's find the eigenvalues. Which can be found as follows
+\begin{align*}
+ |A-\lambda I_2| &=\left| \begin{matrix} -\lambda   & 1 \\ 1  & 1-\lambda \end{matrix}\right|\\
+                 &=-\lambda(1-\lambda)-1\\
+                 &=\lambda^2 -\lambda-1
+\end{align*}
+Thus, by using quadratic formula we would get
+$$\lambda_1=\frac{1+\sqrt{5}}{2}=\phi_1 \qquad~and~\qquad  \lambda_2=\frac{1-\sqrt{5}}{2}=\phi_2$$
+Now, let's find the corresponding eigenvectors\\
+For $\lambda_1=\phi_1$
+$$(A-\lambda_1I_2)V=\left[ \begin{matrix} 0    \\ 0 \end{matrix}\right]$$
+Where $V=\left[ \begin{matrix} v_1 \\ v_2 \end{matrix}\right]$, then
+\begin{align*}
+(A-\lambda_1I_2)V=(A-\phi_1I_2)V=\left[ \begin{matrix} -\phi_1 & 1    \\ 1& 1-\phi_1 \end{matrix}\right]\left[ \begin{matrix} v_1 \\ v_2 \end{matrix}\right]=\left[ \begin{matrix} 0    \\ 0 \end{matrix}\right]
+\end{align*}
+After multiplying the matrices in the left side and equating with the right side we will get the following system of equation
+\begin{align}
+-\phi_1 v_1+v_2=0\label{12}\\
+v_1+(1-\phi_1)v_2=0\label{14}
+\end{align}
+Multiplying (\ref{14}) by $\phi_1$
+\begin{align}
+\phi_1v_1-v_2=0\label{15}
+\end{align}
+Using (\ref{12}) and (\ref{15})
+$$V=\left[ \begin{matrix} v_1 \\ v_2 \end{matrix}\right]=\left[ \begin{matrix} v_1 \\ \phi_1v_1 \end{matrix}\right]=\left[ \begin{matrix} 1 \\ \phi_1\end{matrix}\right]v_1$$
+Hence the corresponding eigenvector for $\lambda_1$ is $\left[ \begin{matrix} 1 \\ \phi_1\end{matrix}\right]$.\\
+Similarly, one can find that the eigenvector for $\lambda_2$ is $\left[ \begin{matrix} 1 \\ \phi_2\end{matrix}\right]$.
+Now we are going to write matrix in a form $A=PDP^{-1}$, where $P=\left[ \begin{matrix} 1& 1 \\ \phi_1 &\phi_2\end{matrix}\right]\Rightarrow P^{-1}=\frac{1}{\phi_2 -\phi_1}\left[ \begin{matrix} \phi_2 & -1 \\ -\phi_1 &1\end{matrix}\right]$and $D=\left[ \begin{matrix} \phi_1& 0 \\0  &\phi_2\end{matrix}\right]$\\
+Finally, let's compute
+\begin{align*}
+\left[\begin{matrix} F_n\\ F_{n+1} \end{matrix}\right] &= \left[ \begin{matrix} 0   & 1 \\ 1  & 1 \end{matrix}\right]^{n-1} \left[\begin{matrix} 1\\ 1 \end{matrix}\right]\\
+&=\left[ \begin{matrix} 1& 1 \\ \phi_1 &\phi_2\end{matrix}\right]\left[ \begin{matrix} \phi_1& 0 \\0  &\phi_2\end{matrix}\right]^{n-1}\frac{1}{\phi_2 -\phi_1}\left[ \begin{matrix} \phi_2 & -1 \\ -\phi_1 &1\end{matrix}\right]\left[\begin{matrix} 1\\ 1 \end{matrix}\right]\\
+&=\frac{1}{\phi_2 -\phi_1}\left[ \begin{matrix} 1& 1 \\ \phi_1 &\phi_2\end{matrix}\right]\left[ \begin{matrix} \phi_1^{n-1}& 0 \\0  &\phi_2^{n-1}\end{matrix}\right]\left[ \begin{matrix} \phi_2 -1 \\ -\phi_1 +1\end{matrix}\right]\\
+&=\frac{1}{-\sqrt{5}}\left[ \begin{matrix} 1& 1 \\ \phi_1 &\phi_2\end{matrix}\right]\left[ \begin{matrix} \phi_1^{n-1}(\phi_2 -1 )\\ \phi_2^{n-1}(-\phi_1+1)\end{matrix}\right]\\
+&=-\frac{1}{\sqrt{5}}\left[ \begin{matrix} \phi_1^{n-1}(-\phi_1)+\phi_2^{n-1}(\phi_2)\\ \phi_1^{n}(-\phi_1) + \phi_2^{n}(\phi_2)\end{matrix}\right]\\
+&=\frac{1}{\sqrt{5}}\left[ \begin{matrix} \phi_1^{n}-\phi_2^{n}\\ \phi_1^{n+1}-\phi_2^{n+1}\end{matrix}\right]
+\end{align*}
+\end{proof}
+That was to be shown!
+
+\subsection{Proof using generating function}
+\colorbox{pink}{\parbox{\textwidth}{
+\begin{thm}\label{thm}
+The $n^{th}$ term of a Fibonacci sequence is given by
+$$
+F_n=\frac{1}{\sqrt{5}}\biggl[\phi_1^n-\phi_2^n \biggl]
+$$
+Where $\phi_1=\frac{1+\sqrt{5}}{2}$ and $\phi_2=\frac{1-\sqrt{5}}{2}$.
+\end{thm}}}
+\begin{proof}
+Consider a Fibonacci sequence which is given by the following recurrence relation
+\begin{align}\label{rec}
+F_n=F_{n-1}+F_{n-2}\qquad \text{ for } n\geq2.
+\end{align}
+And $F_0$ and $F_1$ are defined to be $0$ and $1$ respectively.
+The generating function for Fibonacci sequence is
+$$
+f(x)=F_0+F_1x+F_2x^2+\cdot\cdot\cdot=\sum_{i=0}^\infty F_ix^i
+$$
+When we assign their respective numbers for each $F_i$'s $f(x)$ becomes
+\begin{align}\label{gen}
+f(x)=0+1x+1x^2+2x^3+3x^4+5x^5+\cdot\cdot\cdot
+\end{align}
+The generating function (\ref{gen}) wont help us to solve the recurrence relation in (\ref{rec}). So, let's find the closed form. In order to find the closed form we are going to do some trick, which indeed based at how the Fibonacci sequence recursively defined. Here is what we are going to do, first write (\ref{gen}) as it is,
+
+\begin{tabular}{ccccccccccccccccccccccccccccccc}
+  $f(x)$&=& 0&+ 1$x$ &+ 1$x^2$ &+ 2$x^3$ &+ 3$x^4$ &+ 5$x^5$&+$ \cdot\cdot\cdot$ \\
+  $xf(x)$&=& 0$x$&+ 1$x^2$ &+ 1$x^3$ &+ 2$x^4$ &+ 3$x^5$ &+ 5$x^6$&+$ \cdot\cdot\cdot$ \\
+  $x^2f(x)$&=& 0$x^2$&+ 1$x^3$ &+ 1$x^4$ &+ 2$x^5$ &+ 3$x^6$ &+ 5$x^7$&+$ \cdot\cdot\cdot$ \\
+\hline
+$f(x)-xf(x)-x^2f(x)$ &= & 0&+$x$&+$x^2\{1-1\}$&+$0\cdot x^3$&+$0\cdot x^4$&+$0\cdot x^5$&+$\cdot\cdot\cdot$
+\end{tabular}\\
+Clearly, on the right side we are left with $x$ because the summands goes to $0$. Hence
+ $$
+ f(x)-xf(x)-x^2f(x) = x
+ $$
+Thus,
+\begin{align}\label{closed}
+ f(x)= \frac{x}{1-x-x^2}
+\end{align}
+So far, we have found a generating function (\ref{closed}) for (\ref{rec}). Now, let's use method partial fraction
+\begin{align*}
+ f(x)= \frac{-x}{x^2+x-1}=\frac{-x}{(x+\phi_1)(x+\phi_2)}=\frac{A}{(x+\phi_1)}+\frac{B}{(x+\phi_2)}
+\end{align*}
+To find $A$ and $B$ we are going to solve the following system of equation
+\begin{align*}
+A+B=-1\\
+\phi_2A+\phi_1B=0
+\end{align*}
+Which results $A=\frac{-\phi_1}{\sqrt{5}}$ and $B=\frac{\phi_2}{\sqrt{5}}$.Thus,
+\begin{align*}
+f(x)&=-\frac{1}{\sqrt{5}}\frac{\phi_1}{(x+\phi_1)}+\frac{1}{\sqrt{5}}\frac{\phi_2}{(x+\phi_2)}\\
+    &=\frac{1}{\sqrt{5}}\biggl[\frac{\phi_2}{(x+\phi_2)}-\frac{\phi_1}{(x+\phi_1)}\biggl]\\
+    &=\frac{1}{\sqrt{5}}\biggl[\frac{1}{(\frac{x}{\phi_2}+1)}-\frac{1}{(\frac{x}{\phi_1}+1)}\biggl]
+    =\frac{1}{\sqrt{5}}\biggl[\frac{1}{(-\phi_1x+1)}-\frac{1}{(-\phi_2x+1)}\biggl]\\
+    &=\frac{1}{\sqrt{5}}\biggl[\frac{1}{(1-\phi_1x)}-\frac{1}{(1-\phi_2x)}\biggl]\\
+\end{align*}
+But we know that $\frac{1}{1-ax}=1+ax+a^2x^2+a^3x^3+\cdot\cdot\cdot$. Hence
+$$\frac{1}{1-\phi_1x}=1+\phi_1x+\phi_1^2x^2+\phi_1^3x^3+\cdot\cdot\cdot$$
+$$\frac{1}{1-\phi_2x}=1+\phi_2x+\phi_2^2x^2+\phi_2^3x^3+\cdot\cdot\cdot$$
+Then, we will get
+\begin{align*}
+f(x)&=\frac{1}{\sqrt{5}}\biggl[\frac{1}{(1-\phi_1x)}-\frac{1}{(1-\phi_2x)}\biggl]\\
+    &=\frac{1}{\sqrt{5}}\biggl[1+\phi_1x+\phi_1^2x^2+\phi_1^3x^3+\cdot\cdot\cdot-(1+\phi_2x+\phi_2^2x^2+\phi_2^3x^3+\cdot\cdot\cdot)\biggl]\\  &=\frac{1}{\sqrt{5}}\biggl[(\phi_1-\phi_2)x+(\phi_1^2-\phi_2^2)x^2+(\phi_1^3-\phi_2^3)x^3+\cdot\cdot\cdot\biggl]\\
+    &=\sum_{n=0}^{\infty}\frac{1}{\sqrt{5}}(\phi_1^n-\phi_2^n)x^n
+\end{align*}
+Therefore,
+$$
+F_n=\frac{1}{\sqrt{5}}\biggl[\phi_1^n-\phi_2^n \biggl]
+$$
+\end{proof}
+
+\newpage
+
+\begin{thebibliography}{9}
+
+\bibitem{amsshort}
+[Mrio Livio]
+The Golden Ratio; \textit{The Story of Phi,the World's Most Astonishing Number.}
+
+\bibitem{amsshort}
+[Alfred and Ingmar]
+The Fabulous Fibonacci Numbers.
+
+\bibitem{May}
+[Ron Larson ]
+Elementary Linear Algebra, 6th ed.
+
+\end{thebibliography}
+% ------------------------------------------------------------------------------
+% End document
+% ------------------------------------------------------------------------------
+\end{document}
